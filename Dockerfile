@@ -7,16 +7,17 @@ RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo | tee /etc/yum.r
 RUN yum-config-manager --enable rhel-server-rhscl-7-rpms rhel-7-server-extras-rpms && yum -y install ca-certificates \
         curl \
         libicu \
-	java-11-openjdk-devel \
+        java-11-openjdk-devel \
         jq \
-	nmap-ncat \
-	powershell \
-	sudo \
+        nmap-ncat \
+        powershell \
+        sudo \
         zip \
         unzip
 
 WORKDIR /azp
-
+COPY ./agentgroups .
+RUN cat agentgroups >> /etc/sudoers
 COPY ./gitcreate.sh .
 COPY ./start.sh .
 RUN chmod +x gitcreate.sh start.sh
