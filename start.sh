@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+sudo groupadd -o -g $(stat --format='%g' /var/run/docker.sock) docker
+sudo usermod -a -G docker $(whoami)
+
 if [ -z "$AZP_URL" ]; then
   echo 1>&2 "error: missing AZP_URL environment variable"
   exit 1
